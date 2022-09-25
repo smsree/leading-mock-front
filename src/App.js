@@ -11,6 +11,8 @@ import OfferPage from './Components/Pages/OfferPage';
 import Register from './Components/Pages/Register';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import LoanStatus from './Components/Pages/LoanStatus';
+import AdminStatus from './Components/Pages/AdminPages/AdminStatus';
 
 function App() {
   return (
@@ -28,7 +30,9 @@ function App() {
         <Route exact path="/vehicle" element={<VehicleLoan/>} />
         <Route exact path="/about" element={<AboutsPage/>} />
         <Route exact path="/offer" element={<OfferPage/>}/>
-        <Route exact path="/adminLogin-111" elemet={<AdminLogin/>}/>
+        <Route exact path="/adminLogin-111" element={<AdminLogin/>}/>
+        <Route exact path="/status" element={<LoanStatus/>}/>
+        <Route exact path="/adminStatus" element={<AdminStatus/>}/>
       </Routes>
     </div>
   );

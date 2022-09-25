@@ -4,14 +4,14 @@ import { Link, useNavigate } from 'react-router-dom'
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import {toast} from 'react-toastify'
 
-function UserNavbar() {
+function AdminNavBar() {
     const navigate = useNavigate()
 
     const handleLogout=e=>{
         localStorage.clear();
         sessionStorage.clear();
         toast.success("logged out!!!")
-        navigate("/")
+        navigate("/adminLogin-111")
     }
 
     return (
@@ -21,20 +21,20 @@ function UserNavbar() {
                     <AutoAwesomeIcon/>
                 </IconButton>
                 <Typography variant='h6' component='div' sx={{flexGow: 1}}>
-                    Lending Mock Application
+                    Lending Mock Application Admin
                 </Typography>
                 <Stack direction='row' spacing={2} sx={{ml:'auto'}}>
                     <Button color='inherit'
                         component={Link}
                         to='/offer' 
                      >
-                        Offer
+                        customer
                     </Button>
                     <Button color='inherit'
                         component={Link}
                         to='/status' 
                      >
-                        Status
+                        loan status
                     </Button>
                     <Button color='inherit'
                     onClick={handleLogout} 
@@ -47,4 +47,4 @@ function UserNavbar() {
       )
 }
 
-export default UserNavbar
+export default AdminNavBar
