@@ -9,7 +9,7 @@ import LocationCityIcon from '@mui/icons-material/LocationCity';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import UserNavbar from './navigation/UserNavbar';
+
 
 
 
@@ -33,7 +33,6 @@ const theme = createTheme();
 export default function AboutsPage() {
   return (
     <>
-    <UserNavbar/>
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -54,7 +53,7 @@ export default function AboutsPage() {
           <Box sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Typography variant='body1' color='text.secondary' justifyContent='center' align='justify'>
-                This Lending Mock Application was delveoped as a combined efforts of Aryaman Yugveer Singh and Sree Sangemesh S M.
+                This Lending Mock Application was deleoped as a combined efforts of Aryaman Yugveer Singh and Sree Samgemesh.
                 Under the direct and effective supervision of Mr. Shishram Karwal and Nishchith Kulkarni. <br/>
                 The lending Mock is an application which 
                 provides special loan options to a customer and based on that specialized offer the user/customer can apply for the loan and check
@@ -68,7 +67,6 @@ export default function AboutsPage() {
                         <li>Kotlin</li>
                         <li>WebFlux</li>
                         <li>Mongo Db</li>
-                        <li>Apache Kafka</li>
                     </ul>
                 </Typography>
               </Grid>

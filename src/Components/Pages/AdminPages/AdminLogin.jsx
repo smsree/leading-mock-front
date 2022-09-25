@@ -11,7 +11,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import DefaultNavbar from '../navigation/DefaultNavbar';
-
+import axios from 'axios';
+import { useState } from 'react';
 
 function Copyright(props) {
   return (
@@ -29,13 +30,33 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function AdminLogin() {
+  const[admin,setAdmin]=useState({
+    adminName:"",
+    adminPassword:""  
+  })
+  const handleInput = (e) =>{
+    setAdmin({...admin,[e.target.name]:e.target.value})
+  }
   const handleSubmit = (event) => {
     event.preventDefault();
+    axios.post("http://localhost:8091/v1/admin/login",admin)
+    .then((res)=>{
+      console.log(res.data);
+      if(res.data.adminName){
+        sessionStorage.setItem("adminName",res.data.adminName)
+
+      }
+
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
   };
 
   return (
     <>
     <DefaultNavbar/>
+    
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -62,6 +83,8 @@ export default function AdminLogin() {
                   fullWidth
                   id="adminName"
                   label="Admin Username"
+                  value={admin.adminName}
+                  onChange={handleInput}
                   autoFocus
                 />
               </Grid>
@@ -69,10 +92,12 @@ export default function AdminLogin() {
                 <TextField
                   required
                   fullWidth
-                  id="password"
+                  id="adminPassword"
                   label="password"
-                  name="password"
+                  name="adminPassword"
                   type="password"
+                  value={admin.adminPassword}
+                  onChange={handleInput}
                 />
               </Grid>
             </Grid>

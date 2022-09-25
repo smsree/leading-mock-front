@@ -13,12 +13,14 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import DefaultNavbar from './navigation/DefaultNavbar';
 import { useState } from 'react';
 import {toast} from 'react-toastify'
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" href='/about'>
         Lending Mock
       </Link>{' '}
       {new Date().getFullYear()}
@@ -31,6 +33,10 @@ const theme = createTheme();
 
 export default function Register() {
 
+  const baseUrl = "http://localhost:8091/v1/customer/register"
+
+  const navigate = useNavigate()
+
   const [customer, setCustomer] = useState({
     name:"",
     phoneNumber:"",
@@ -41,24 +47,20 @@ export default function Register() {
   })
 
   const handleInput = (e) =>{
-    setCustomer({...customer,[e.target.name]:[e.target.value]})
+    setCustomer({...customer,[e.target.name]:e.target.value})
   }
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    if(customer.name==="" ||customer.phoneNumber==="" || customer.email==="" || customer.dateOfBirth==="" || customer.adhar==="" || customer.panNumber===""){
-      toast.error("The given fields cannot be empty !!!")
-    }
-    else{
-      if(isNaN(customer.phoneNumber) || (customer.phoneNumber.length<10 || customer.phoneNumber.length>10)){
-        toast.error("Enter a valid Phone Number")
-      }
-
-      if(isNaN(customer.adhar) || (customer.adhar.length<12 || customer.adhar.length>12)){
-        toast.error("Enter a valid Adhar number")
-      }
-    }
+    axios.post(baseUrl,customer)
+    .then(response =>{
+      console.log(response.data)
+      toast.success("Customer Registered Successfuly")
+      navigate("/")
+    }).catch(Error =>{
+      console.log("Error",Error)
+      toast.error("Some Error Occured :(")
+    })
   };
 
   return (
@@ -81,14 +83,14 @@ export default function Register() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }} noValidate>
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
-                  autoComplete="given-name"
                   name="name"
                   required
                   fullWidth
+                  type="text"
                   id="name"
                   value={customer.name}
                   label="Full Name"
@@ -106,7 +108,6 @@ export default function Register() {
                   type="date"
                   value={customer.dateOfBirth}
                   onChange={handleInput}
-                  defaultValue="2017-05-24"
                   
                 />
               </Grid>
@@ -117,7 +118,7 @@ export default function Register() {
                   id="phoneNumber"
                   label="Phone Number"
                   name="phoneNumber"
-                  type="number"
+                  type="text"
                   value={customer.phoneNumber}
                   onChange={handleInput}
                 />
@@ -138,10 +139,10 @@ export default function Register() {
                 <TextField
                   required
                   fullWidth
-                  name="aadhar"
+                  name="adhar"
                   label="Aadhaar Number"
-                  type="number"
-                  id="aadhar"
+                  type="text"
+                  id="adhar"
                   value={customer.adhar}
                   onChange={handleInput}                  
                 />

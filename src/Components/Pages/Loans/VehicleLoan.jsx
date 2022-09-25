@@ -11,7 +11,10 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import UserNavbar from '../navigation/UserNavbar';
-import { useState,useRef } from 'react';
+import { useState} from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import {toast} from 'react-toastify'
 
 
 function Copyright(props) {
@@ -32,8 +35,34 @@ const theme = createTheme();
 
 
 export default function VehicleLoan() {
+
+  const navigate = useNavigate()
+
+  const baseUrl = "http://localhost:8082/v1/vehicleLoan/"
+
+  const [vehicle,setVehicle] = useState({
+    vehicleName:"",
+    customerMobileNo:sessionStorage.getItem("phoneNumber"),
+    loanName:sessionStorage.getItem("loanName"),
+    loanamount:sessionStorage.getItem("loanAmount"),
+    rateOfInterest:sessionStorage.getItem("rateOfInterest")
+  })
+
+  const handleChange = (e) =>{
+    setVehicle({...vehicle,[e.target.name]:e.target.value})
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    axios.post(baseUrl,vehicle)
+    .then((response)=>{
+      console.log(response.data)
+      if(response.data){
+        toast.success("Applied for Vehicle Loan")
+        navigate("/status")
+      }
+    })
   };
 
   return (
@@ -66,7 +95,10 @@ export default function VehicleLoan() {
                   fullWidth
                   id="name"
                   label="Full Name"
-                  autoFocus
+                  value={sessionStorage.getItem("name")}
+                  InputProps={{
+                    readOnly: true,
+                  }}
                 />
               </Grid>
               <Grid item xs={12}  sm={6}>
@@ -77,7 +109,10 @@ export default function VehicleLoan() {
                   label="Date of Birth"
                   name="dateOfBirth"
                   type="date"
-                  defaultValue="2017-05-24"
+                  value={sessionStorage.getItem("dateOfBirth")}
+                  InputProps={{
+                    readOnly: true,
+                  }}
                   
                 />
               </Grid>
@@ -89,6 +124,10 @@ export default function VehicleLoan() {
                   label="Phone Number"
                   name="phoneNumber"
                   type="number"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  value={sessionStorage.getItem("phoneNumber")}
                 />
               </Grid>
               <Grid item xs={12}  sm={6}>
@@ -99,7 +138,10 @@ export default function VehicleLoan() {
                   label="Email Address"
                   name="email"
                   type="email"
-                  autoComplete="email"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  value={sessionStorage.getItem("email")}
                 />
               </Grid>
               <Grid item xs={12}  sm={6}>
@@ -110,7 +152,10 @@ export default function VehicleLoan() {
                   label="Aadhaar Number"
                   type="number"
                   id="adhar"
-                  
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  value={sessionStorage.getItem("adhar")}
                 />
               </Grid>
               <Grid item xs={12}  sm={6}>
@@ -121,7 +166,10 @@ export default function VehicleLoan() {
                   label="PAN Number"
                   type="text"
                   id="panNumber"
-                  
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  value={sessionStorage.getItem("panNumber")}
                 />
               </Grid>
               <Grid item xs={12}  sm={6}>
@@ -132,7 +180,10 @@ export default function VehicleLoan() {
                   label="Intrest rate"
                   type="text"
                   id="rateOfInterest"
-                  
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  value={sessionStorage.getItem("rateOfInterest")}
                 />
               </Grid>
               <Grid item xs={12}  sm={6}>
@@ -143,7 +194,10 @@ export default function VehicleLoan() {
                   label="Loan Amount"
                   type="text"
                   id="loanAmount"
-                  
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  value={sessionStorage.getItem("loanAmount")}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -154,6 +208,7 @@ export default function VehicleLoan() {
                       label="Vehicle Name"
                       type="text"
                       id="vehicleName"
+                      onChange={handleChange}
                     />
                 </Grid>
             </Grid>

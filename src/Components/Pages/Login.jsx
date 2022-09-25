@@ -55,6 +55,19 @@ export default function Login() {
       axios.post(baseUrl+'/login',login)
       .then(response =>{
         console.log(response.data)
+        if(response.data){
+          toast.success("Login Successful")
+          sessionStorage.setItem("phoneNumber",response.data.phoneNumber)
+          sessionStorage.setItem("name",response.data.name)
+          sessionStorage.setItem("adhar",response.data.adhar)
+          sessionStorage.setItem("panNumber",response.data.panNumber)
+          sessionStorage.setItem("dateOfBirth",response.data.dateOfBirth)
+          sessionStorage.setItem("email",response.data.email)
+          navigate("/offer")
+        }
+      }).catch(Error =>{
+        console.log("Error",Error)
+        toast.error("Some Error Occured :(")
       })
     }
   };
@@ -122,7 +135,7 @@ export default function Login() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
+        <Copyright sx={{ mt:25 }} />
       </Container>
     </ThemeProvider>
     </>
